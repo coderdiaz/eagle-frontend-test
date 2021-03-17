@@ -1,5 +1,7 @@
 import SimpleLayout from "@/layouts/Simple";
-import { useRouter } from "next/dist/client/router";
+import { NextPageContext } from "next";
+import { useRouter } from "next/router";
+import { parseCookies, setCookie } from "nookies";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -12,7 +14,14 @@ const IndexPage = () => {
   const { register, handleSubmit } = useForm<FormData>();
   const router = useRouter();
 
-  const onSubmit = () => router.push('/dashboard');
+  const onSubmit = () => {
+    setCookie(null, "jwt", "token", {
+      maxAge: 30 * 24 * 60 *60,
+      path: "/",
+    });
+
+    router.push('/dashboard');
+  }
 
   return <>
     <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -90,3 +99,21 @@ const IndexPage = () => {
 };
 
 export default SimpleLayout(IndexPage);
+
+export async function getServerSideProps (ctx: NextPageContext) {
+  const jwt = parseCookies(ctx).jwt;
+
+  if (jwt) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
