@@ -4,7 +4,7 @@ import TasksContext from "@/components/TasksContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <TasksContext>
-    <Component {...pageProps} />;
+    <Component {...pageProps} />
   </TasksContext>
 };
 
