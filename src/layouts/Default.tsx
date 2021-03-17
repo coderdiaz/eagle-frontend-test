@@ -1,6 +1,7 @@
 import { ComponentType, useContext } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Context, ContextValues } from "@/components/TasksContext";
+import UserConfig from "@/components/UserConfig";
 
 type ILayoutOptions = {
   title: string;
@@ -33,12 +34,7 @@ const DefaultLayout = (Component: ComponentType, options: ILayoutOptions) => {
                     <span className="inline-flex rounded-full bg-blue-600 text-white w-5 text-xs items-center justify-center absolute top-0 right-0 border-2 border-blueGray-200">{tasks.filter(task => !task.done).length}</span>
                   </a>
                 </div>
-                <div className="flex space-x-4 items-center">
-                  <span className="inline-block text-gray-800 font-semibold">Javier Diaz</span>
-                  <img
-                    src="https://avatars.githubusercontent.com/u/1901273?s=460&u=93a85ce88bdaf2a69d0a855b8862baad9353676f&v=4"
-                    className="w-8 rounded-full object-cover border-2 border-white" />
-                </div>
+                <UserConfig />
               </div>
             </nav>
           </div>

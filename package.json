@@ -13,13 +13,16 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",
     "axios": "^0.21.1",
+    "js-cookie": "^2.2.1",
     "next": "^10.0.9",
     "nookies": "^2.5.2",
     "react": "^17.0.1",
+    "react-cool-onclickoutside": "^1.6.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.15.4"
   },
   "devDependencies": {
+    "@types/js-cookie": "^2.2.6",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",
     "autoprefixer": "^10.2.5",
