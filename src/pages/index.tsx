@@ -11,7 +11,7 @@ type FormData = {
 }
 
 const IndexPage = () => {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, errors } = useForm<FormData>();
   const router = useRouter();
 
   const onSubmit = () => {
@@ -40,7 +40,7 @@ const IndexPage = () => {
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Correo Electrónico
               </label>
-              <div className="mt-1">
+              <div className="my-1">
                 <input
                   id="email"
                   ref={register({ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ })}
@@ -49,13 +49,17 @@ const IndexPage = () => {
                   autoComplete="email"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
               </div>
+              { errors.email?.type === 'pattern'
+                && <span className="inline-block w-full px-2 py-1 text-xs text-red-700 bg-red-200 rounded">
+                  Por favor introduce un correo válido
+                </span> }
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block w-full text-sm font-medium text-gray-700">
                 Contraseña
               </label>
-              <div className="mt-1">
+              <div className="my-1">
                 <input
                   id="password"
                   ref={register({ required: true })}
