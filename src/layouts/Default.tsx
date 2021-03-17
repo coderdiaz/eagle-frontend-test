@@ -30,7 +30,7 @@ const DefaultLayout = (Component: ComponentType, options: ILayoutOptions) => {
                     <span className="inline-flex rounded-full bg-blue-600 text-white w-5 text-xs items-center justify-center absolute top-0 right-0 border-2 border-blueGray-200">0</span>
                   </a>
                 </div>
-                <div className="px-3 flex space-x-4 items-center">
+                <div className="flex space-x-4 items-center">
                   <span className="inline-block text-gray-800 font-semibold">Javier Diaz</span>
                   <img
                     src="https://avatars.githubusercontent.com/u/1901273?s=460&u=93a85ce88bdaf2a69d0a855b8862baad9353676f&v=4"
