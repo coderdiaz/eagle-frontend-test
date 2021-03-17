@@ -1,6 +1,19 @@
 import SimpleLayout from "@/layouts/Simple";
+import { useRouter } from "next/dist/client/router";
+import { useForm } from "react-hook-form";
+
+type FormData = {
+  email: string;
+  password: string;
+  remember_me: string;
+}
 
 const IndexPage = () => {
+  const { register, handleSubmit } = useForm<FormData>();
+  const router = useRouter();
+
+  const onSubmit = () => router.push('/dashboard');
+
   return <>
     <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -13,13 +26,19 @@ const IndexPage = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Correo Electrónico
               </label>
               <div className="mt-1">
-                <input id="email" name="email" type="email" autoComplete="email" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                <input
+                  id="email"
+                  ref={register({ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ })}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
               </div>
             </div>
 
@@ -28,13 +47,24 @@ const IndexPage = () => {
                 Contraseña
               </label>
               <div className="mt-1">
-                <input id="password" name="password" type="password" autoComplete="current-password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                <input
+                  id="password"
+                  ref={register({ required: true })}
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
               </div>
             </div>
 
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <input id="remember_me" name="remember_me" type="checkbox" className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" />
+                <input
+                  id="remember_me"
+                  ref={register}
+                  name="remember_me"
+                  type="checkbox"
+                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" />
                 <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
                   Recuerdame
                 </label>
