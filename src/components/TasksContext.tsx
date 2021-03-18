@@ -12,7 +12,9 @@ interface ITask {
 
 export type ContextValues = {
   tasks?: ITask[];
-  createTask?: (description: string) => void
+  createTask?: (description: string) => void;
+  removeTask?: (idx: number) => void;
+  toggleStatus?: (idx: number) => void;
 };
 
 export const Context = createContext<ContextValues>({});
@@ -33,12 +35,27 @@ const TasksContext = ({ children }: ITasksContext) => {
   }]);
 
   const createTask = (description: string) => {
-    updateTasks([...tasks, { description, createdAt: Date.now(), done: false }])
+    updateTasks([...tasks, { description, createdAt: Date.now(), done: false }]);
+  }
+
+  const removeTask = (idx: number) => {
+    updateTasks(tasks.filter((_, index) => index !== idx));
+  }
+
+  const toggleStatus = (idx: number) => {
+    const newArray = [...tasks];
+    const task = tasks[idx];
+    task.done = !task.done;
+
+    newArray.splice(idx, 1, task);
+    updateTasks(newArray);
   }
 
   return <Context.Provider value={{
     tasks,
     createTask,
+    removeTask,
+    toggleStatus,
   }}>
     {children}
   </Context.Provider>;

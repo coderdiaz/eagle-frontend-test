@@ -1,3 +1,4 @@
+import Task from "@/components/Task";
 import { Context, ContextValues } from "@/components/TasksContext";
 import DefaultLayout from "@/layouts/Default";
 import { useContext, useState } from "react";
@@ -64,15 +65,20 @@ const TasksPage = () => {
                   <button type="submit" className="px-6 py-3 text-center shadow-sm bg-gray-500 text-gray-50 font-semibold rounded">Crear tarea</button>
                 </div>
               </form>
-              { !tabSelected ? tasks.map((task, index) => {
-                return <div key={index} className="flex items-center px-7 py-5 bg-white rounded w-full shadow-sm">
-                  <input className="mr-3 rounded text-blue-500 h-5 w-5" type="checkbox" />
-                  {task.description}
-                </div>
-                }): tasks.filter(task => task.done === tabSelected).map((task, index) => <div key={index} className="flex items-center px-7 py-5 bg-white rounded w-full shadow-sm">
-                <input className="mr-3 rounded text-blue-500 h-5 w-5" type="checkbox" />
-                {task.description}
-              </div>) }
+              { tabSelected === null
+                  ? tasks.map((task, index) => <Task 
+                    key={index}
+                    index={index}
+                    done={task.done}
+                    description={task.description}
+                   />)
+                  : tasks.filter(task => task.done === tabSelected)
+                      .map((task, index) => <Task 
+                        key={index}
+                        index={index}
+                        description={task.description}
+                        done={task.done} 
+                      />) }
             </div>
           </div>
         </div>
