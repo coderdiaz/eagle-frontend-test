@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { Context, ContextValues } from "@/components/TasksContext";
 import UserConfig from "@/components/UserConfig";
 import useInactive from "../hook/useInactive";
+import Modal from "@/components/Modal";
 
 type ILayoutOptions = {
   title: string;
@@ -13,27 +14,28 @@ type ILayoutOptions = {
 const DefaultLayout = (Component: ComponentType, options: ILayoutOptions) => {
   return () => {
     const [isShowed, setIsShowed] = useState(false);
-    const router = useRouter();
     const { tasks } = useContext(Context) as ContextValues;
+    const router = useRouter();
 
     const { inactive } = useInactive(60, 120, () => {
       Cookies.remove("jwt");
       router.push("/");
     });
 
-    const showAlert = () => {
-      setIsShowed(true);
-      console.log('Estas inactivo');
-    }
+    const toggle = () => {
+      setIsShowed(!isShowed);
+    };
 
     useEffect(() => {
       if (inactive) {
         if (!isShowed) {
-          showAlert()
+          toggle()
         }
       }
 
-      return () => {};
+      return () => {
+        setIsShowed(false);
+      }
     }, [inactive]);
 
     return <>
@@ -66,6 +68,7 @@ const DefaultLayout = (Component: ComponentType, options: ILayoutOptions) => {
           <Component />
         </main>
       </div>
+      { isShowed ? <Modal onClick={toggle} /> : null }
     </>;
   }
 }
