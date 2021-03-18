@@ -7,17 +7,15 @@ const useInactive = (alertTime: number, inactiveTime: number, callback: () => vo
   const [inactive, setInactive] = useState(false);
 
   const resetTime = () => {
+    setInactive(false);
     clearTimeout(timeAlert);
     clearTimeout(time);
-    setInactive(false);
 
-    const timer = setTimeout(() => {
+    setTimeAlert(setTimeout(() => {
       setInactive(true);
-    }, 1000 * alertTime);
-    setTimeAlert(timer);
+    }, 1000 * alertTime));
 
-    const longTimer = setTimeout(() => callback, 1000 * inactiveTime)
-    setTime(longTimer);
+    setTime(setTimeout(callback, 1000 * inactiveTime));
   }
 
   useEffect(() => {
