@@ -1,7 +1,10 @@
-import { ComponentType, useContext } from "react";
+import { ComponentType, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 import Sidebar from "@/components/Sidebar";
 import { Context, ContextValues } from "@/components/TasksContext";
 import UserConfig from "@/components/UserConfig";
+import useInactive from "../hook/useInactive";
 
 type ILayoutOptions = {
   title: string;
@@ -9,7 +12,29 @@ type ILayoutOptions = {
 
 const DefaultLayout = (Component: ComponentType, options: ILayoutOptions) => {
   return () => {
+    const [isShowed, setIsShowed] = useState(false);
+    const router = useRouter();
     const { tasks } = useContext(Context) as ContextValues;
+
+    const { inactive } = useInactive(60, 120, () => {
+      Cookies.remove("jwt");
+      router.push("/");
+    });
+
+    const showAlert = () => {
+      setIsShowed(true);
+      console.log('Estas inactivo');
+    }
+
+    useEffect(() => {
+      if (inactive) {
+        if (!isShowed) {
+          showAlert()
+        }
+      }
+
+      return () => {};
+    }, [inactive]);
 
     return <>
       <div className="h-screen flex overflow-hidden">
